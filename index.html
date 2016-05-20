@@ -431,10 +431,15 @@
   <script type="text/javascript">
     function getDetailsV0() {
       navigator.getVRDevices().then(function(devices) {
-        var state = devices[0].getState()
+      	var state = {}
+      	for(var i=0; i<devices.length; i++) {
+          if(devices[i] instanceof PositionSensorVRDevice) {
+            state = devices[i].getState()
+          }
+      	}
         var output = 'WebVR Version 0.\nFound ' + devices.length + ' device' + (devices.length > 1 ? 's' : '') + '.\n'
-        if(state.position) output += 'This device supports position tracking.'
-        if(state.orientation) output += 'This device supports orientation tracking.'
+        if(state.position) output += 'This device may support position tracking.'
+        if(state.orientation) output += 'This device may support orientation tracking.'
         document.getElementById('result').textContent = output
       })
     }
